@@ -1,6 +1,6 @@
 FROM php:latest
 
-# Instalar extensiones de PHP necesarias para Laravel
+# Instalar extensiones de PHP necesariasl
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -30,9 +30,9 @@ RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Exponer el puerto de Laravel
-EXPOSE 8000
+# Exponer el puerto
+EXPOSE 8080
 
 # Configurar el entrypoint y el comando por defecto
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
