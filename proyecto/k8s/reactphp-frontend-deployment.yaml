@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactphp-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: reactphp-frontend
+  template:
+    metadata:
+      labels:
+        app: reactphp-frontend
+    spec:
+      containers:
+      - name: reactphp-frontend
+        image: reactphp-frontend:latest
+        ports:
+        - containerPort: 5173
