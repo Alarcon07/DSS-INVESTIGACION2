@@ -1,6 +1,6 @@
 FROM php:latest
 
-# Instalar extensiones de PHP necesariasl
+# Instalar extensiones de PHP necesarias y dos2unix
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    dos2unix \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql
 
@@ -21,14 +22,9 @@ WORKDIR /var/www/html
 # Copiar todos los archivos del proyecto
 COPY . .
 
-# Dar permisos de escritura a storage y bootstrap/cache
-RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-
-# Copiar el script de entrypoint
+# Convertir entrypoint.sh a formato Unix y dar permisos de ejecución
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN dos2unix /entrypoint.sh && chmod +x /entrypoint.sh
 
 # Exponer el puerto
 EXPOSE 8080
